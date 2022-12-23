@@ -1,0 +1,139 @@
+.leftBar {
+  background-color: #192f48;
+  width: 50px;
+  height: 100vh;
+  position: fixed;
+}
+.mainBox {
+  width: calc(100vw - 50px);
+  margin-left: 50px;
+  height: 100vh;
+  background-color: white;
+}
+.title {
+  text-align: left;
+  font-size: 24px;
+  padding: 1rem;
+  font-family: "Lato";
+}
+
+.calenderIcon {
+  color: #136fed;
+  font-size: 1rem;
+  margin-right: 0.25rem;
+}
+.dateBox {
+  background-color: transparent;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid lightblue;
+  border-radius: 5px;
+  margin-left: 2rem;
+}
+.dateBox2{
+  background-color: transparent;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid lightblue;
+  border-radius: 10px;
+  margin-left: 0rem;
+}
+.dateInput{
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  position: absolute;
+  font-size: 0.8rem;
+  text-align: center;
+  background-color: white;
+  border: 1px solid lightgray;
+}
+.dateBox:hover, .dateBox2:hover {
+  cursor: pointer;
+}
+.settingsBtn {
+  background-color: transparent;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid lightblue;
+  border-radius: 5px;
+  float: right;
+  margin-right: 2rem;
+}
+.settingsBtn:hover {
+  cursor: pointer;
+}
+.dashboard {
+  width: calc(100% - 6rem);
+  margin-left: 2rem;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-top: 3rem;
+}
+
+.dash_btn {
+  padding: 0.5rem 1.5rem;
+  background: transparent;
+  margin: 0.5rem 0.5rem;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  width: 10rem;
+  text-align: left;
+}
+.submit{
+  color: white;
+  background-color: #136fed;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+.submit:hover{
+  cursor: pointer;
+}
+.dash_btn:hover {
+  cursor: pointer;
+}
+#dash_selected {
+  border-left: 8px solid #136fed;
+}
+
+.table {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 2rem;
+}
+
+.table_col {
+  text-align: center;
+  width: 100%;
+}
+.dInpRow{
+  margin: 0.5rem;
+}
+.tRow{
+  padding: 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid gray;
+  height: 1.75rem;
+  font-size: 0.9rem;
+}
+.app-logo{
+  transform: scale(0.8) translate(-10px, 5px);
+
+}
+.table_header{
+  font-size: 1.3rem;
+  padding: 0.75rem;
+}
+.c_dash{
+  float: right;
+  color: #136fed;
+  background-color: white;
+  border: 1px solid #136fed;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  margin-top: -2rem;
+}
+
+.c_dash:hover{
+  cursor: pointer;
+}

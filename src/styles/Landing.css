@@ -1,0 +1,19 @@
+.landing_button{
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #136FED;
+    border-radius: 5px;
+    margin-left: 50vw;
+    margin-top: 50vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%);
+    border: none;
+}
+
+.landing_button:hover{
+    cursor: pointer;
+}
