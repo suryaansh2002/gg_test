@@ -76,6 +76,8 @@ export default function Analytics() {
     axios.get("http://go-dev.greedygame.com/v3/dummy/apps").then((res) => {
       setApps(res.data.data);
     });
+    if(searchParams.get("start") && searchParams.get("end") && searchParams.get("dash")){
+
     setStartDate(searchParams.get("start"));
     setEndDate(searchParams.get("end"));
     const start = new Date(searchParams.get("start")).toDateString().split(" ");
@@ -90,7 +92,8 @@ export default function Analytics() {
       tempItems[i] = true;
     });
     setDashItems(tempItems)
-  }, []);
+  }
+}, []);
 
   const sumArray = (field) => {
     let sum = 0;
