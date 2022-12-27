@@ -20,15 +20,42 @@ export default function Analytics() {
   const [searchParams] = useSearchParams();
 
   const dash = {
-    Date: false,
-    App: false,
-    "Ad Requests": false,
-    "Ad Response": false,
-    Impressions: false,
-    Clicks: false,
-    Revenue: false,
-    "Fill Rate": false,
-    CTR: false,
+    Date: {
+      index: 0,
+      value: false,
+    },
+    App: {
+      index: 1,
+      value: false,
+    },
+    "Ad Requests": {
+      index: 2,
+      value: false,
+    },
+    "Ad Response": {
+      index: 3,
+      value: false,
+    },
+    Impressions: {
+      index: 4,
+      value: false,
+    },
+    Clicks: {
+      index: 5,
+      value: false,
+    },
+    Revenue: {
+      index: 6,
+      value: false,
+    },
+    "Fill Rate": {
+      index: 7,
+      value: false,
+    },
+    CTR: {
+      index: 8,
+      value: false,
+    },
   };
   const map = {
     Date: "date",
@@ -41,21 +68,17 @@ export default function Analytics() {
     "Fill Rate": "fill_rate",
     CTR: "ctr",
   };
-  const dashArr = [
-    "Date",
-    "App",
-    "Ad Requests",
-    "Ad Response",
-    "Impressions",
-    "Clicks",
-    "Revenue",
-    "Fill Rate",
-    "CTR",
-  ];
 
   const [dashItems, setDashItems] = useState(dash);
   const [link, setLink] = useState("");
-
+  const [dashArr, setDashArr] = useState([]);
+  useEffect(() => {
+    let tempDashArr = [];
+    Object.keys(dashItems).map((keyName, i) => {
+      tempDashArr[dashItems[keyName].index] = keyName;
+    });
+    setDashArr(tempDashArr);
+  }, [dashItems]);
   useEffect(() => {
     axios
       .get(
@@ -76,24 +99,29 @@ export default function Analytics() {
     axios.get("http://go-dev.greedygame.com/v3/dummy/apps").then((res) => {
       setApps(res.data.data);
     });
-    if(searchParams.get("start") && searchParams.get("end") && searchParams.get("dash")){
-
-    setStartDate(searchParams.get("start"));
-    setEndDate(searchParams.get("end"));
-    const start = new Date(searchParams.get("start")).toDateString().split(" ");
-    const end = new Date(searchParams.get("end")).toDateString().split(" ");
-    const val =
-      start[1] + " " + start[2] + "-" + end[1] + " " + end[2] + ", " + end[3];
-    setDateString(val);
-    const active = JSON.parse(searchParams.get("dash"));
-    console.log(active);
-    let tempItems = dashItems;
-    active.map((i) => {
-      tempItems[i] = true;
-    });
-    setDashItems(tempItems)
-  }
-}, []);
+    if (
+      searchParams.get("start") &&
+      searchParams.get("end") &&
+      searchParams.get("dash")
+    ) {
+      setStartDate(searchParams.get("start"));
+      setEndDate(searchParams.get("end"));
+      const start = new Date(searchParams.get("start"))
+        .toDateString()
+        .split(" ");
+      const end = new Date(searchParams.get("end")).toDateString().split(" ");
+      const val =
+        start[1] + " " + start[2] + "-" + end[1] + " " + end[2] + ", " + end[3];
+      setDateString(val);
+      const active = JSON.parse(searchParams.get("dash"));
+      console.log(active);
+      let tempItems = dashItems;
+      active.map((i) => {
+        tempItems[i].value = true;
+      });
+      setDashItems(tempItems);
+    }
+  }, []);
 
   const sumArray = (field) => {
     let sum = 0;
@@ -105,7 +133,7 @@ export default function Analytics() {
 
   const getLink = () => {
     const newArray = dashArr.filter((item) => {
-      return dashItems[item];
+      return dashItems[item].value;
     });
     const u =
       "http://localhost:3000/analytics?start=" +
@@ -205,24 +233,29 @@ export default function Analytics() {
           <div className="dashboard">
             <div>Dashboard and Metrics</div>
             <div>
-              {Object.keys(dashItems).map((keyName, i) => (
-                <>
-                  <button
-                    className="dash_btn"
-                    id={dashItems[keyName] ? "dash_selected" : null}
-                    onClick={() => {
-                      const val = dashItems[keyName];
-                      setDashItems({
-                        ...dashItems,
-                        [keyName]: !dashItems[keyName],
-                      });
-                    }}
-                  >
-                    {keyName}
-                  </button>
-                </>
-              ))}
+              {dashItems &&
+                dashArr.map((keyName, i) => (
+                  <>
+                    <button
+                      className="dash_btn"
+                      id={dashItems[keyName].value ? "dash_selected" : null}
+                      onClick={() => {
+                        const val = dashItems[keyName];
+                        setDashItems({
+                          ...dashItems,
+                          [keyName]: {
+                            index: dashItems[keyName].index,
+                            value: !dashItems[keyName].value,
+                          },
+                        });
+                      }}
+                    >
+                      {keyName}
+                    </button>
+                  </>
+                ))}
             </div>
+
             <button className="c_dash" onClick={() => setShowDashboard(false)}>
               Close
             </button>
@@ -232,7 +265,7 @@ export default function Analytics() {
           <div className="table">
             {dashArr.map((item) => (
               <>
-                {dashItems[item] && (
+                {dashItems[item].value && (
                   <div className="table_col">
                     <div>
                       <FaFilter />
@@ -291,11 +324,14 @@ export default function Analytics() {
                             </>
                           ) : (
                             <>
-                              {item == "Revenue" ? (
+                              {arr && item == "Revenue" ? (
                                 <>
                                   {arr.map((arrItem) => (
                                     <div className="tRow">
-                                      ${arrItem[map[item]].toFixed(2)}
+                                      $
+                                      {parseFloat(arrItem[map[item]]).toFixed(
+                                        2
+                                      )}
                                     </div>
                                   ))}
                                 </>
@@ -306,7 +342,10 @@ export default function Analytics() {
                                       {" "}
                                       {arr.map((arrItem) => (
                                         <div className="tRow">
-                                          {arrItem[map[item]]}%
+                                          {parseFloat(
+                                            arrItem[map[item]]
+                                          ).toFixed(3)}
+                                          %
                                         </div>
                                       ))}
                                     </>

@@ -1,1 +1,2 @@
 /* /index.html 200
+/api/* http://go-dev.greedygame.com/v3/dummy/:splat 200!
